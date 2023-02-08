@@ -1,0 +1,52 @@
+
+                 {% comment %}
+                 {%- assign index= index|plus:1 -%}
+                {% if product.variants.size > 1 %}
+                 {% for option in product.options %}
+                   {% if option == 'Color' %}
+                   {% assign index = forloop.index0 %}
+                   {% assign colorlist = '' %}
+                   {% assign color = '' %}
+                     
+                   {% for variant in product.variants  %}
+                   {% capture color %}
+                   {{ variant.options[index] }}
+                   {% endcapture %}
+                       {% unless colorlist contains color %}
+                         {% comment %}
+                           {%- if arr_clearfilterSize > 0 -%}
+                              {% assign singleColor  = color |downcase|strip %}
+                               {%- for vl_filter in arr_clearfilter -%}
+                                 {% if vl_filter contains 'filter_color' %}
+                                   {% assign colorMatch = vl_filter | where: 'filter_color%3d' | last |remove: 'filter_color%3d' %}
+                                     {% if vl_filter contains singleColor  %}
+                                      {%- render 'pr_loop_grid_variant',var:variant,product:product,use_cdt:use_cdt,txt_cd:txt_cd, col:col, col_tb:col_tb, col_mb:col_mb,url_cat:url_cat,sett_equal:sett_equal,show_vendor:show_vendor,inc_price:inc_price,use_rating:use_rating,inc_rating:inc_rating,show_color:show_color,show_cl_type:show_cl_type,show_size:show_size -%}                 
+                                     {% endif %}
+                                    {% else %}
+                                   {% assign tagMatch = vl_filter | where: 'filter_tag%3d' | last |remove: 'filter_tag%3d' %}
+                                   {% if vl_filter contains tagMatch %}
+                                      {%- render 'pr_loop_grid_variant',var:variant,product:product,use_cdt:use_cdt,txt_cd:txt_cd, col:col, col_tb:col_tb, col_mb:col_mb,url_cat:url_cat,sett_equal:sett_equal,show_vendor:show_vendor,inc_price:inc_price,use_rating:use_rating,inc_rating:inc_rating,show_color:show_color,show_cl_type:show_cl_type,show_size:show_size -%}                 
+                                     {% endif %}
+                                  {% endif %}
+                               {%- endfor -%}   
+                           
+                             {% else %}
+                             {%- render 'pr_loop_grid_variant',var:variant,product:product,use_cdt:use_cdt,txt_cd:txt_cd, col:col, col_tb:col_tb, col_mb:col_mb,url_cat:url_cat,sett_equal:sett_equal,show_vendor:show_vendor,inc_price:inc_price,use_rating:use_rating,inc_rating:inc_rating,show_color:show_color,show_cl_type:show_cl_type,show_size:show_size -%}                 
+                           {%- endif -%}
+                         {%- render 'pr_loop_grid_variant',var:variant,product:product,use_cdt:use_cdt,txt_cd:txt_cd, col:col, col_tb:col_tb, col_mb:col_mb,url_cat:url_cat,sett_equal:sett_equal,show_vendor:show_vendor,inc_price:inc_price,use_rating:use_rating,inc_rating:inc_rating,show_color:show_color,show_cl_type:show_cl_type,show_size:show_size -%}                 
+                        
+                           {%- render 'pr_loop_grid_variant',var:variant,product:product,use_cdt:use_cdt,txt_cd:txt_cd, col:col, col_tb:col_tb, col_mb:col_mb,url_cat:url_cat,sett_equal:sett_equal,show_vendor:show_vendor,inc_price:inc_price,use_rating:use_rating,inc_rating:inc_rating,show_color:show_color,show_cl_type:show_cl_type,show_size:show_size -%}                 
+                         
+                        {% capture tempList %}
+                      {{colorlist | append: color | append: " " }}
+                      {% endcapture %}
+                      {% assign colorlist = tempList %}
+                      {% endunless %}
+                        
+                     
+                      {% endfor %}
+                    {% endif %}
+                  {% endfor %}
+                 {% endif %}
+
+                 {% endcomment %}
